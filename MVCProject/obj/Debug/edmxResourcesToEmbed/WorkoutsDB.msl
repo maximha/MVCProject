@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="social_workout_app_dbModelStoreContainer" CdmEntityContainer="social_workout_app_dbEntities">
+    <EntitySetMapping Name="tasks">
+      <EntityTypeMapping TypeName="social_workout_app_dbModel.task">
+        <MappingFragment StoreEntitySet="task">
+          <ScalarProperty Name="taskName" ColumnName="taskName" />
+          <ScalarProperty Name="workoutName" ColumnName="workoutName" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="rev" ColumnName="rev" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="social_workout_app_dbModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="userName" ColumnName="userName" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="workouts">
+      <EntityTypeMapping TypeName="social_workout_app_dbModel.workout">
+        <MappingFragment StoreEntitySet="workouts">
+          <ScalarProperty Name="workoutName" ColumnName="workoutName" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

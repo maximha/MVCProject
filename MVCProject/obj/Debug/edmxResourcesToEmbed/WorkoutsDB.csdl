@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="social_workout_app_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="task">
+    <Key>
+      <PropertyRef Name="taskName" />
+    </Key>
+    <Property Name="taskName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="workoutName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="rev" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="workout" Relationship="Self.workoutName" FromRole="task" ToRole="workouts" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="firstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="lastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="workouts" Relationship="Self.userName" FromRole="user" ToRole="workouts" />
+  </EntityType>
+  <EntityType Name="workout">
+    <Key>
+      <PropertyRef Name="workoutName" />
+    </Key>
+    <Property Name="workoutName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tasks" Relationship="Self.workoutName" FromRole="workouts" ToRole="task" />
+    <NavigationProperty Name="user" Relationship="Self.userName" FromRole="workouts" ToRole="user" />
+  </EntityType>
+  <Association Name="workoutName">
+    <End Role="workouts" Type="Self.workout" Multiplicity="0..1" />
+    <End Role="task" Type="Self.task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="workouts">
+        <PropertyRef Name="workoutName" />
+      </Principal>
+      <Dependent Role="task">
+        <PropertyRef Name="workoutName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="userName">
+    <End Role="user" Type="Self.user" Multiplicity="0..1" />
+    <End Role="workouts" Type="Self.workout" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="workouts">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="social_workout_app_dbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tasks" EntityType="Self.task" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <EntitySet Name="workouts" EntityType="Self.workout" />
+    <AssociationSet Name="workoutName" Association="Self.workoutName">
+      <End Role="workouts" EntitySet="workouts" />
+      <End Role="task" EntitySet="tasks" />
+    </AssociationSet>
+    <AssociationSet Name="userName" Association="Self.userName">
+      <End Role="user" EntitySet="users" />
+      <End Role="workouts" EntitySet="workouts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

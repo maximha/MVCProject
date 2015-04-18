@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="social_workout_app_dbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="task">
+    <Key>
+      <PropertyRef Name="taskName" />
+    </Key>
+    <Property Name="taskName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="workoutName" Type="varchar" MaxLength="20" />
+    <Property Name="description" Type="varchar" MaxLength="200" />
+    <Property Name="time" Type="varchar" MaxLength="10" />
+    <Property Name="rev" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="userName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="firstName" Type="varchar" MaxLength="20" />
+    <Property Name="lastName" Type="varchar" MaxLength="20" />
+    <Property Name="password" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="workouts">
+    <Key>
+      <PropertyRef Name="workoutName" />
+    </Key>
+    <Property Name="workoutName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="userName" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <Association Name="userName">
+    <End Role="user" Type="Self.user" Multiplicity="0..1" />
+    <End Role="workouts" Type="Self.workouts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="workouts">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="workoutName">
+    <End Role="workouts" Type="Self.workouts" Multiplicity="0..1" />
+    <End Role="task" Type="Self.task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="workouts">
+        <PropertyRef Name="workoutName" />
+      </Principal>
+      <Dependent Role="task">
+        <PropertyRef Name="workoutName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="social_workout_app_dbModelStoreContainer">
+    <EntitySet Name="task" EntityType="Self.task" Schema="social_workout_app_db" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="social_workout_app_db" store:Type="Tables" />
+    <EntitySet Name="workouts" EntityType="Self.workouts" Schema="social_workout_app_db" store:Type="Tables" />
+    <AssociationSet Name="userName" Association="Self.userName">
+      <End Role="user" EntitySet="user" />
+      <End Role="workouts" EntitySet="workouts" />
+    </AssociationSet>
+    <AssociationSet Name="workoutName" Association="Self.workoutName">
+      <End Role="workouts" EntitySet="workouts" />
+      <End Role="task" EntitySet="task" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
