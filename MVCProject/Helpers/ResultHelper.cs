@@ -1,4 +1,5 @@
-﻿using MVCProject.Models;
+﻿using MVCProject.ApiModels;
+using MVCProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,62 @@ namespace MVCProject.Helpers
                 message = message
             };
         }
-        public static KeysModel arrayResult(int userID, string userKey)
+        public static LogModel loginResult(string userName, string userKey)
         {
-            List<string> keyIds = getUserKeys(userID).Select(x => encodeKey(x.Key, userKey)).ToList<string>();
-            KeysModel keysModel = new KeysModel
+            /*
+             * need implement of aes key created and encrypted by rsa key "userKey"
+             */
+            LogModel logModel = new LogModel
             {
                 result = true,
-                keys = keyIds
+                publicKey = userKey
             };
-            return keysModel;
+            return logModel;
         }
+
+        public static workoutModelList workoutsRessult(String _userName)
+        {
+            //connect to db
+            social_workout_app_dbEntities db = new social_workout_app_dbEntities();
+            List<String> names = db.workouts.Where(s => s.userName == _userName).Select(s => s.workoutName).ToList();
+            db.Dispose();
+            workoutModelList workoutModel = new workoutModelList
+            {
+                result = true,
+                workouts = names
+            };
+            return workoutModel;
+        }
+
+        public static taskModelList tasksRrssult(String _workoutName) 
+        {
+            //connect to db
+            social_workout_app_dbEntities db = new social_workout_app_dbEntities();
+
+            List<String> names = db.tasks.Where(s => s.workoutName == _workoutName).Select(s => s.taskName).ToList();
+            db.Dispose();
+
+            taskModelList taskModel = new taskModelList 
+            {
+                result = true,
+                tasksList = names
+            };
+            return taskModel;
+        }
+
+        public static ItemTaskModel taskByNameResult(String _taskName)
+        {
+            //connect to db
+            social_workout_app_dbEntities db = new social_workout_app_dbEntities();
+            task _task = db.tasks.Where(x => x.taskName == _taskName).SingleOrDefault();
+            db.Dispose();
+            ItemTaskModel taskModel = new ItemTaskModel 
+            {
+                result = true,
+                itemTask = _task
+            };
+            return taskModel;
+        }
+        
     }
 }

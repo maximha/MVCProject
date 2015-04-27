@@ -5,8 +5,8 @@ using System.Web;
 
 namespace MVCProject.Models
 {
-    public class KeysModel : AbstractModel
+    public class taskModelList : AbstractModel
     {
-        public List<string> keys;
+        public List<string> tasksList;
     }
 }

@@ -14,8 +14,8 @@ namespace MVCProject
     
     public partial class task
     {
-        public string taskName { get; set; }
         public string workoutName { get; set; }
+        public string taskName { get; set; }
         public string description { get; set; }
         public string time { get; set; }
         public string rev { get; set; }
